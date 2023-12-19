@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Print start time of the script
+echo "TIMING - Starting main script at: $(date)"
+
+# Change working directory to user's home directory
+cd "${HOME}"
+
+# Purge existing modules
+module purge
+
+# Load the specified module
+module load "python/3.9.7-anaconda"
+
+# List the currently loaded modules
+module list
+
+# Start Jupyter Lab
+jupyter lab --debug --config="${CONFIG_FILE}" --notebook-dir=<%= context.work_dir %>
+
+# Print end time of the script
+echo "TIMING - Ending main script at: $(date)"
+

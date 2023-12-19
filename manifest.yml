@@ -1,0 +1,23 @@
+---
+name: Jupyter
+category: Interactive Apps
+subcategory: Servers
+role: batch_connect
+description: |
+  This application launches Jupyter Lab using the vanilla Python 3.9.7 module. 
+        
+  Once Jupyter starts, users will be able to choose their Python kernels from a number of options:
+
+    - **System modules** - vanilla Python environments installed by HPC staff
+    - **Containers** - container-based Python environments built by HPC staff
+    - **Conda VE** - Conda Virtual Environments installed by user
+        
+  To ensure that a Conda VE appears as a Jupyter kernel, users must have the ipykernel package installed in it. After activating your conda VE, run:
+  
+  ```python
+  conda install ipykernel
+  ```
+
+  This only needs to be run once.
+
+  ----

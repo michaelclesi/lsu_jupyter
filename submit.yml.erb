@@ -1,0 +1,35 @@
+<%
+temp = bc_num_hours                
+bc_num_hours_i = bc_num_hours.to_i
+
+if auto_queue == 'single' && bc_num_hours_i > 168
+        bc_num_hours = "168"
+elsif bc_num_hours_i > 72
+        bc_num_hours = "72"
+else
+        bc_num_hours = temp
+end
+
+native = [
+        "-A", auto_accounts,
+        "-p", auto_queue,
+        "-N", bc_num_slots,
+        "-t", "#{bc_num_hours}:00:00"
+         ]
+
+if auto_queue == 'gpu'
+  native += ["--gres=gpu:" + bc_num_gpus.to_s]
+end
+
+if auto_queue == 'single'
+  native += ["-n", bc_num_cores.to_s]
+end
+%>
+
+---
+
+batch_connect:
+  template: "basic"
+
+script:
+  native: <%= native.inspect %>

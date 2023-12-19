@@ -1,0 +1,102 @@
+<%
+
+%>
+
+cluster: "mike"
+
+attributes:
+          
+  work_dir:
+    label: "Work Directory for Jupyter"
+    help: "Use the 'Select Path' button or manually enter your preferred working directory for Jupyter."
+    data-filepicker: true
+
+  auto_accounts:
+    label: "Computation Resource Allocation"
+    help: "Specify the allocation to charge for computation resource usage."
+
+  auto_queue:
+    label: "Job Queue Type"
+    help: "Select the queue your job will be submitted to."
+    widget: "select"
+    options:
+      - [
+          "single",
+          "single",
+          "data-hide-bc-num-gpus": true,
+        ]
+      - [
+          "bigmem",
+          "bigmem",
+          "data-hide-bc-num-gpus": true,
+          "data-hide-bc-num-cores": true,
+        ]
+      - [
+          "checkpt",
+          "checkpt",
+          "data-hide-bc-num-gpus": true,
+          "data-hide-bc-num-cores": true,
+        ]
+      - [
+          "gpu",
+          "gpu",
+          "data-hide-bc-num-cores": true,
+        ]
+
+  bc_num_slots:
+    label: "Nodes for Job"
+    widget: "number_field"
+    help: "Jupyter jobs are currently limited to one node per job."
+    value: 1
+    min: 1
+    max: 1
+
+  bc_num_hours:
+    label: "Job Duration (in hours)"
+    widget: "number_field"
+    help: |
+      Specify the expected duration of your job in hours. 
+    
+      - The `single` queue has a maximum job length of `168` hours. 
+      - The `gpu`, `checkpt`, and `bigmem` queues all have a maximum job length of `72` hours.
+        
+      Exceeding these limits will default to the maximum allowed job duration.
+    value: 2
+    min: 1
+    step: 1
+
+  bc_num_cores:
+    label: "Number of Cores per Node"
+    widget: "number_field"
+    help: | 
+      Specify the number of cores required per compute node. 
+    
+      - Only the `single` queue allows for customized core count (`1` to `64`).
+      - The `checkpt` and `bigmem` queues will default to `64` cores. 
+      - The core count for the `gpu` queue will be set automatically (multiple of 16) depending on the GPU count.
+    value: 1
+    min: 1
+    max: 64
+    step: 1
+
+  bc_num_gpus:
+    label: "Number of GPUs (for GPU jobs only)"
+    widget: "number_field"
+    help: |
+      Specify the number of GPUs required. 
+            
+      This field is only applicable when the `gpu` queue is selected. The CPU core count will be automatically set to 16 * (number of GPUs): One GPU will have 16 cores, two GPUs will have 32 cores, etc.
+    value: 1 
+    min: 1 
+    max: 4
+    step: 1
+
+form:
+  - work_dir
+  - auto_accounts
+  - auto_queue
+  - bc_num_slots
+  - bc_num_hours
+  - bc_num_cores
+  - bc_num_gpus
+
